@@ -1,9 +1,26 @@
 import { useTranslations } from "next-intl";
-import { Sparkles } from "lucide-react";
+import {
+  CalendarCheck2,
+  Crown,
+  Flame,
+  MessagesSquare,
+  Sprout,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import type { BadgeId } from "@/lib/bluesky/types";
 import { cn } from "@/lib/utils";
+
+const badgeIcons: Record<BadgeId, LucideIcon> = {
+  "legacy-member": Crown,
+  "viral-spark": Flame,
+  "conversation-starter": MessagesSquare,
+  "consistent-player": CalendarCheck2,
+  "community-builder": UsersRound,
+  rookie: Sprout,
+};
 
 export function CardBadges({
   badges,
@@ -23,12 +40,16 @@ export function CardBadges({
 
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
-      {visible.map((badge) => (
-        <Badge key={badge} variant="secondary" className="normal-case">
-          <Sparkles className="size-3" />
-          {t(`badges.${badge}.name`)}
-        </Badge>
-      ))}
+      {visible.map((badge) => {
+        const Icon = badgeIcons[badge];
+
+        return (
+          <Badge key={badge} variant="secondary" className="normal-case">
+            <Icon className="size-3" />
+            {t(`badges.${badge}.name`)}
+          </Badge>
+        );
+      })}
     </div>
   );
 }

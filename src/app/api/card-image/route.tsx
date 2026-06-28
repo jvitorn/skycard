@@ -4,6 +4,8 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 import type { SkyCardAnalysis, SkyCardPresentation } from "@/lib/bluesky/types";
+import type { CardExportTheme } from "@/lib/export/card-themes";
+import { isCardExportThemeId, resolveCardExportTheme } from "@/lib/export/card-themes";
 import { routing, type Locale } from "@/lib/i18n/routing";
 import { analyzeProfile } from "@/lib/scoring/analyze-profile";
 
@@ -104,6 +106,7 @@ function CardArt({
   width,
   height,
   showDetails = true,
+  exportTheme,
 }: {
   analysis: SkyCardAnalysis;
   locale: Locale;
@@ -111,9 +114,13 @@ function CardArt({
   width: number;
   height: number;
   showDetails?: boolean;
+  exportTheme?: CardExportTheme;
 }) {
   const tier = tierColors[analysis.presentation.tier];
   const border = borderColors[analysis.presentation.border];
+  const cardStart = exportTheme?.cardStart ?? tier.c1;
+  const cardEnd = exportTheme?.cardEnd ?? tier.c2;
+  const cardBase = exportTheme?.background ?? "#060B18";
   const archetype = t(`archetypes.${analysis.presentation.archetype}.name`);
   const name = analysis.profile.displayName;
   const tierLine = `${t("card.overall")} · ${t(`tiers.${analysis.presentation.tier}`).toUpperCase()}`;
@@ -135,10 +142,10 @@ function CardArt({
         flexDirection: "column",
         borderRadius: 54,
         border: `7px solid ${border.border}`,
-        background: `linear-gradient(160deg, ${tier.c1}, ${tier.c2} 64%, #060B18)`,
+        background: `linear-gradient(160deg, ${cardStart}, ${cardEnd} 64%, ${cardBase})`,
         color: "#F7FAFF",
         padding: pad,
-        boxShadow: `0 0 0 4px rgba(255,255,255,.12) inset, 0 0 70px ${border.border}66`,
+        boxShadow: `0 0 0 4px rgba(255,255,255,.12) inset, 0 0 70px ${exportTheme?.glow ?? `${border.border}66`}`,
         overflow: "hidden",
         position: "relative",
         fontFamily: "Arial, sans-serif",
@@ -153,9 +160,16 @@ function CardArt({
           opacity: 0.55,
         }}
       />
-      <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: isSmall ? 94 : 140, lineHeight: 0.78, fontWeight: 900, color: tier.ovr }}>
+          <div style={{ display: "flex", fontSize: isSmall ? 94 : 140, lineHeight: 0.78, fontWeight: 900, color: border.border }}>
             {analysis.scores.overall}
           </div>
           <div
@@ -205,7 +219,7 @@ function CardArt({
             width: avatarSize,
             height: avatarSize,
             borderRadius: 999,
-            border: `6px solid ${tier.accent}`,
+            border: `6px solid ${border.border}`,
             background: `linear-gradient(140deg, ${tier.accent}, ${tier.accent2})`,
             color: "#06101F",
             display: "flex",
@@ -318,7 +332,7 @@ function CardArt({
                   {t(`attributes.${key}.name`)}
                 </div>
               </div>
-              <div style={{ display: "flex", color: tier.ovr, fontSize: 44, fontWeight: 900 }}>{value}</div>
+              <div style={{ display: "flex", color: border.border, fontSize: 44, fontWeight: 900 }}>{value}</div>
             </div>
           ))}
         </div>
@@ -362,12 +376,17 @@ function ShareArt({
   analysis,
   locale,
   t,
+  exportTheme,
 }: {
   analysis: SkyCardAnalysis;
   locale: Locale;
   t: Awaited<ReturnType<typeof getTranslations>>;
+  exportTheme?: CardExportTheme;
 }) {
   const overallLine = `${analysis.scores.overall} ${t("card.overall")}`;
+  const background = exportTheme
+    ? `radial-gradient(circle at 20% 12%, ${exportTheme.glow}, transparent 360px), radial-gradient(circle at 82% 18%, rgba(255,255,255,.12), transparent 340px), linear-gradient(180deg,${exportTheme.background},${exportTheme.cardEnd} 62%,${exportTheme.background})`
+    : "radial-gradient(circle at 20% 12%, rgba(86,214,255,.22), transparent 360px), radial-gradient(circle at 82% 18%, rgba(233,196,106,.2), transparent 340px), linear-gradient(180deg,#050B18,#08142a 62%,#050B18)";
 
   return (
     <div
@@ -379,20 +398,27 @@ function ShareArt({
         alignItems: "center",
         justifyContent: "space-between",
         padding: 70,
-        background:
-          "radial-gradient(circle at 20% 12%, rgba(86,214,255,.22), transparent 360px), radial-gradient(circle at 82% 18%, rgba(233,196,106,.2), transparent 340px), linear-gradient(180deg,#050B18,#08142a 62%,#050B18)",
+        background,
         color: "#F7FAFF",
         fontFamily: "Arial, sans-serif",
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div style={{ display: "flex", fontSize: 54, fontWeight: 900 }}>{t("card.brand")}</div>
-        <div style={{ marginTop: 12, display: "flex", color: "#E9C46A", fontSize: 92, fontWeight: 900 }}>
+        <div style={{ marginTop: 12, display: "flex", color: borderColors[analysis.presentation.border].border, fontSize: 92, fontWeight: 900 }}>
           {overallLine}
         </div>
       </div>
 
-      <CardArt analysis={analysis} locale={locale} t={t} width={520} height={728} showDetails={false} />
+      <CardArt
+        analysis={analysis}
+        locale={locale}
+        t={t}
+        width={520}
+        height={728}
+        showDetails={false}
+        exportTheme={exportTheme}
+      />
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div style={{ display: "flex", fontSize: 50, fontWeight: 900 }}>
@@ -455,10 +481,14 @@ export async function GET(request: NextRequest) {
   const actor = request.nextUrl.searchParams.get("actor");
   const kindParam = request.nextUrl.searchParams.get("kind");
   const localeParam = request.nextUrl.searchParams.get("locale");
+  const themeParam = request.nextUrl.searchParams.get("theme");
   const locale = hasLocale(routing.locales, localeParam)
     ? (localeParam as Locale)
     : routing.defaultLocale;
   const kind: ImageKind = kindParam === "share" ? "share" : "card";
+  const exportTheme = isCardExportThemeId(themeParam)
+    ? resolveCardExportTheme(themeParam)
+    : undefined;
   const size = sizeByKind[kind];
   const t = await getTranslations({ locale });
 
@@ -480,9 +510,10 @@ export async function GET(request: NextRequest) {
           t={t}
           width={size.width}
           height={size.height}
+          exportTheme={exportTheme}
         />
       ) : (
-        <ShareArt analysis={analysis} locale={locale} t={t} />
+        <ShareArt analysis={analysis} locale={locale} t={t} exportTheme={exportTheme} />
       ),
       {
         ...size,

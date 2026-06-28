@@ -239,6 +239,12 @@
     --bdglow: rgba(233, 196, 106, 0.55);
   }
 
+  .skycard-shell:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 6px;
+    border-radius: 28px;
+  }
+
   .skycard-face {
     position: absolute;
     inset: 0;
@@ -269,18 +275,18 @@
   }
 
   .skycard-back {
-    transform: rotateY(180deg);
+    transform: none;
   }
 
   .skycard-inner {
     position: relative;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: opacity 180ms ease;
   }
 
   .skycard-inner[data-flipped="true"] {
-    transform: rotateY(180deg);
+    transform: none;
   }
 
   .export-root *,

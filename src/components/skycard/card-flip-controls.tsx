@@ -15,12 +15,17 @@ export function CardFlipControls({
   const t = useTranslations("result");
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div
+      className="flex items-center justify-center gap-2"
+      role="group"
+      aria-label={t("cardSideControls")}
+    >
       <Button
         type="button"
         variant={!flipped ? "default" : "outline"}
         onClick={!flipped ? undefined : onFlip}
         aria-pressed={!flipped}
+        aria-label={t("showFront")}
       >
         <RotateCcw className="size-4" />
         {t("front")}
@@ -30,6 +35,7 @@ export function CardFlipControls({
         variant={flipped ? "default" : "outline"}
         onClick={flipped ? undefined : onFlip}
         aria-pressed={flipped}
+        aria-label={t("showBack")}
       >
         <RotateCw className="size-4" />
         {t("back")}

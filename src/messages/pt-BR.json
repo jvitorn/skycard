@@ -13,10 +13,10 @@
     "exploreCards": "Ver cartas",
     "language": "Idioma",
     "menu": "Menu",
-    "closeMenu": "Fechar menu"
+    "closeMenu": "Fechar menu",
+    "skipContent": "Pular para o conteúdo"
   },
   "landing": {
-    "badge": "Dados públicos · por diversão",
     "headline": "Transforme seu perfil do Bluesky em uma carta colecionável.",
     "subheadline": "Digite um handle e descubra sua atividade, impacto e estilo de conversa.",
     "label": "Digite um handle do Bluesky",
@@ -76,6 +76,7 @@
     "showFront": "Ver frente",
     "showBack": "Ver verso",
     "flipCard": "Virar carta",
+    "cardSideControls": "Escolher lado da carta",
     "enlarge": "Ampliar",
     "download": "Baixar",
     "downloadCard": "Baixar carta",
@@ -121,7 +122,8 @@
     "activityWindow": "Janela de {days} dias",
     "legacySince": "Desde {year}",
     "noDate": "Data indisponível",
-    "avatarAlt": "Avatar de {name}"
+    "avatarAlt": "Avatar de {name}",
+    "accessibleLabel": "Carta de {name}, @{handle}. Lado atual: {side}. {ovr} OVR, tier {tier}, borda {border}, arquétipo {archetype}, {followers} seguidores e {following} seguindo."
   },
   "tiers": {
     "base": "Base",
@@ -220,27 +222,27 @@
   },
   "badges": {
     "legacy-member": {
-      "name": "Legacy Member",
+      "name": "Membro legado",
       "description": "A idade da conta rende uma borda Legacy Gold."
     },
     "viral-spark": {
-      "name": "Viral Spark",
+      "name": "Faísca viral",
       "description": "O impacto é alto ou vários posts superam a linha de base."
     },
     "conversation-starter": {
-      "name": "Conversation Starter",
+      "name": "Puxa conversa",
       "description": "A participação em conversas externas é especialmente forte."
     },
     "consistent-player": {
-      "name": "Consistent Player",
+      "name": "Presença constante",
       "description": "A atividade semanal é bem estável."
     },
     "community-builder": {
-      "name": "Community Builder",
+      "name": "Constrói comunidade",
       "description": "A nota de rede e a amplitude de conversas são fortes."
     },
     "rookie": {
-      "name": "Rookie",
+      "name": "Novato",
       "description": "A carta é baseada em uma amostra pequena de atividade pública."
     }
   },
@@ -264,10 +266,20 @@
   "download": {
     "title": "Baixe sua SkyCard",
     "description": "Escolha a carta colecionável ou uma imagem social com fundo e legenda.",
+    "themeLabel": "Cor de fundo",
+    "themeHelp": "A cor escolhida aparece no fundo do PNG baixado.",
     "cardFormat": "Carta PNG · 1000 × 1400",
     "shareFormat": "Social PNG · 1080 × 1350",
     "started": "Download iniciado",
-    "failed": "Não foi possível exportar a imagem. Tente novamente."
+    "failed": "Não foi possível exportar a imagem. Tente novamente.",
+    "colors": {
+      "sky": "Sky",
+      "indigo": "Indigo",
+      "emerald": "Emerald",
+      "rose": "Rose",
+      "amber": "Amber",
+      "slate": "Slate"
+    }
   },
   "share": {
     "title": "Compartilhe sua SkyCard",

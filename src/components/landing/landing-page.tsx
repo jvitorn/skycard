@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Layers3, Share2, ShieldCheck, Sparkles, WandSparkles } from "lucide-react";
+import { Download, Layers3, Share2, ShieldCheck, WandSparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import {
@@ -9,7 +9,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Locale } from "@/lib/i18n/routing";
@@ -72,10 +71,6 @@ export function LandingPage({ locale }: { locale: Locale }) {
     <div className="star-field">
       <section className="sky-container grid min-h-[calc(100dvh-4rem)] items-center gap-10 py-12 md:grid-cols-[1fr_minmax(320px,440px)] md:py-20">
         <div className="max-w-2xl">
-          <Badge className="mb-6 normal-case">
-            <Sparkles className="size-3" />
-            {t("landing.badge")}
-          </Badge>
           <h1 className="font-heading text-[clamp(2.55rem,8vw,5.6rem)] font-black leading-[0.95] tracking-normal">
             {t("landing.headline")}
           </h1>

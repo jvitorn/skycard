@@ -13,10 +13,10 @@
     "exploreCards": "Ver cartas",
     "language": "Idioma",
     "menu": "Menú",
-    "closeMenu": "Cerrar menú"
+    "closeMenu": "Cerrar menú",
+    "skipContent": "Saltar al contenido"
   },
   "landing": {
-    "badge": "Datos públicos · por diversión",
     "headline": "Convierte tu perfil de Bluesky en una carta coleccionable.",
     "subheadline": "Escribe un handle y descubre tu actividad, impacto y estilo de conversación.",
     "label": "Escribe un handle de Bluesky",
@@ -76,6 +76,7 @@
     "showFront": "Ver frente",
     "showBack": "Ver reverso",
     "flipCard": "Girar carta",
+    "cardSideControls": "Elegir lado de la carta",
     "enlarge": "Ampliar",
     "download": "Descargar",
     "downloadCard": "Descargar carta",
@@ -121,7 +122,8 @@
     "activityWindow": "Ventana de {days} días",
     "legacySince": "Desde {year}",
     "noDate": "Fecha no disponible",
-    "avatarAlt": "Avatar de {name}"
+    "avatarAlt": "Avatar de {name}",
+    "accessibleLabel": "Carta de {name}, @{handle}. Lado actual: {side}. {ovr} OVR, tier {tier}, borde {border}, arquetipo {archetype}, {followers} seguidores y {following} siguiendo."
   },
   "tiers": {
     "base": "Base",
@@ -220,27 +222,27 @@
   },
   "badges": {
     "legacy-member": {
-      "name": "Legacy Member",
+      "name": "Miembro legado",
       "description": "La edad de la cuenta obtiene un borde Legacy Gold."
     },
     "viral-spark": {
-      "name": "Viral Spark",
+      "name": "Chispa viral",
       "description": "El impacto es alto o varios posts superan la línea base."
     },
     "conversation-starter": {
-      "name": "Conversation Starter",
+      "name": "Inicia conversaciones",
       "description": "La participación en conversaciones externas es especialmente fuerte."
     },
     "consistent-player": {
-      "name": "Consistent Player",
+      "name": "Presencia constante",
       "description": "La actividad semanal es muy estable."
     },
     "community-builder": {
-      "name": "Community Builder",
+      "name": "Construye comunidad",
       "description": "La puntuación de red y la amplitud de conversaciones son fuertes."
     },
     "rookie": {
-      "name": "Rookie",
+      "name": "Principiante",
       "description": "La carta se basa en una muestra pequeña de actividad pública."
     }
   },
@@ -264,10 +266,20 @@
   "download": {
     "title": "Descarga tu SkyCard",
     "description": "Elige la carta coleccionable o una imagen social con fondo y texto.",
+    "themeLabel": "Color de fondo",
+    "themeHelp": "El color elegido aparece en el fondo del PNG descargado.",
     "cardFormat": "Carta PNG · 1000 × 1400",
     "shareFormat": "Social PNG · 1080 × 1350",
     "started": "Descarga iniciada",
-    "failed": "No se pudo exportar la imagen. Intenta de nuevo."
+    "failed": "No se pudo exportar la imagen. Intenta de nuevo.",
+    "colors": {
+      "sky": "Sky",
+      "indigo": "Indigo",
+      "emerald": "Emerald",
+      "rose": "Rose",
+      "amber": "Amber",
+      "slate": "Slate"
+    }
   },
   "share": {
     "title": "Comparte tu SkyCard",

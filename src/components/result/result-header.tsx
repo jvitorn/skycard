@@ -25,26 +25,31 @@ export function ResultHeader({ analysis }: { analysis: SkyCardAnalysis }) {
   const { profile, presentation, scores } = analysis;
 
   return (
-    <div className="flex flex-col gap-4 rounded-[16px] border border-white/10 bg-white/[.035] p-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 items-center gap-4">
-        <Avatar className="size-14 border border-[rgba(86,214,255,.35)]">
-          <AvatarImage src={profile.avatar} alt={t("card.avatarAlt", { name: profile.displayName })} />
-          <AvatarFallback className="bg-[linear-gradient(140deg,var(--cyan),var(--gold))] font-heading font-black text-[#06101f]">
-            {initials(profile.displayName)}
-          </AvatarFallback>
-        </Avatar>
-        <div className="min-w-0">
-          <h1 className="truncate font-heading text-2xl font-black">{profile.displayName}</h1>
-          <p className="truncate text-sm font-semibold text-muted-foreground">@{profile.handle}</p>
-          <p className="mt-1 text-sm font-bold text-[var(--cyan)]">
-            {t(`archetypes.${presentation.archetype}.name`)}
-          </p>
+    <div className="rounded-[16px] border border-white/10 bg-white/[.035] p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+          <Avatar className="size-14 border border-[rgba(86,214,255,.35)]">
+            <AvatarImage
+              src={profile.avatar}
+              alt={t("card.avatarAlt", { name: profile.displayName })}
+            />
+            <AvatarFallback className="bg-[linear-gradient(140deg,var(--cyan),var(--gold))] font-heading font-black text-[#06101f]">
+              {initials(profile.displayName)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="min-w-0">
+            <h1 className="truncate font-heading text-xl font-black sm:text-2xl">
+              {profile.displayName}
+            </h1>
+            <p className="truncate text-sm font-semibold text-muted-foreground">
+              @{profile.handle}
+            </p>
+            <p className="mt-1 truncate text-sm font-bold text-[var(--cyan)]">
+              {t(`archetypes.${presentation.archetype}.name`)}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-        <Badge variant="secondary">{t(`tiers.${presentation.tier}`)}</Badge>
-        <Badge>{t(`borders.${presentation.border}`)}</Badge>
-        <div className="rounded-[12px] border border-[rgba(233,196,106,.35)] bg-[rgba(233,196,106,.1)] px-4 py-2 text-right">
+        <div className="shrink-0 rounded-[12px] border border-[rgba(233,196,106,.35)] bg-[rgba(233,196,106,.1)] px-3 py-2 text-right sm:px-4">
           <div className="font-sport text-4xl font-black leading-none text-[var(--gold)]">
             {scores.overall}
           </div>
@@ -52,9 +57,13 @@ export function ResultHeader({ analysis }: { analysis: SkyCardAnalysis }) {
             {t("card.overall")}
           </div>
         </div>
-        <div className="hidden w-full basis-full sm:block" />
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <Badge variant="secondary">{t(`tiers.${presentation.tier}`)}</Badge>
+        <Badge>{t(`borders.${presentation.border}`)}</Badge>
         <CardBadges badges={presentation.badges} limit={2} />
-        <div className="text-xs font-semibold text-muted-foreground">
+        <div className="text-xs font-semibold text-muted-foreground sm:ml-auto">
           {formatCompactNumber(profile.followers, locale)} {t("card.followers").toLowerCase()}
         </div>
       </div>

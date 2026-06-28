@@ -1,29 +1,79 @@
 "use client";
 
-import { KeyboardEvent, PointerEvent, useRef } from "react";
+import {
+  forwardRef,
+  type CSSProperties,
+  KeyboardEvent,
+  PointerEvent,
+  useCallback,
+  useRef,
+} from "react";
+import { useLocale, useTranslations } from "next-intl";
 
 import type { SkyCardAnalysis } from "@/lib/bluesky/types";
+import type { CardExportThemeId } from "@/lib/export/card-themes";
+import { resolveCardExportTheme } from "@/lib/export/card-themes";
 import { cn } from "@/lib/utils";
+import { formatCompactNumber } from "@/lib/utils/numbers";
 
 import { SkyCardBack } from "./sky-card-back";
 import { SkyCardFront } from "./sky-card-front";
 
-export function SkyCard({
-  analysis,
-  flipped,
-  onFlip,
-  className,
-  exportMode = false,
-  avatar,
-}: {
+type SkyCardProps = {
   analysis: SkyCardAnalysis;
   flipped: boolean;
   onFlip?: () => void;
   className?: string;
   exportMode?: boolean;
   avatar?: string;
-}) {
+  exportThemeId?: CardExportThemeId;
+};
+
+export const SkyCard = forwardRef<HTMLDivElement, SkyCardProps>(function SkyCard({
+  analysis,
+  flipped,
+  onFlip,
+  className,
+  exportMode = false,
+  avatar,
+  exportThemeId,
+}, forwardedRef) {
+  const t = useTranslations();
+  const locale = useLocale();
   const ref = useRef<HTMLDivElement>(null);
+  const exportTheme = exportThemeId ? resolveCardExportTheme(exportThemeId) : undefined;
+  const themeStyle = exportTheme
+    ? ({
+        "--c1": exportTheme.cardStart,
+        "--c2": exportTheme.cardEnd,
+        "--export-bg": exportTheme.background,
+        "--export-glow": exportTheme.glow,
+      } as CSSProperties)
+    : undefined;
+  const sideLabel = t(flipped ? "result.back" : "result.front");
+  const accessibleLabel = t("card.accessibleLabel", {
+    name: analysis.profile.displayName,
+    handle: analysis.profile.handle,
+    side: sideLabel,
+    ovr: analysis.scores.overall,
+    tier: t(`tiers.${analysis.presentation.tier}`),
+    border: t(`borders.${analysis.presentation.border}`),
+    archetype: t(`archetypes.${analysis.presentation.archetype}.name`),
+    followers: formatCompactNumber(analysis.profile.followers, locale),
+    following: formatCompactNumber(analysis.profile.follows, locale),
+  });
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      ref.current = node;
+
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef]
+  );
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     if (exportMode || !ref.current) {
@@ -66,7 +116,8 @@ export function SkyCard({
 
   return (
     <div
-      ref={ref}
+      ref={setRefs}
+      style={themeStyle}
       className={cn(
         "skycard-shell w-full max-w-[360px]",
         !exportMode && "float-card",
@@ -74,18 +125,23 @@ export function SkyCard({
       )}
       data-tier={analysis.presentation.tier}
       data-border={analysis.presentation.border}
-      role={onFlip ? "button" : undefined}
+      role={onFlip ? "button" : "group"}
       tabIndex={onFlip ? 0 : undefined}
+      aria-label={accessibleLabel}
+      title={onFlip ? t("result.flipCard") : undefined}
       onClick={onFlip}
       onKeyDown={handleKeyDown}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       aria-pressed={onFlip ? flipped : undefined}
     >
-      <div className="skycard-inner" data-flipped={flipped}>
-        <SkyCardFront analysis={analysis} avatar={avatar || analysis.profile.avatar} />
-        <SkyCardBack analysis={analysis} />
+      <div className="skycard-inner" data-flipped={flipped} aria-live="polite">
+        {flipped ? (
+          <SkyCardBack analysis={analysis} />
+        ) : (
+          <SkyCardFront analysis={analysis} avatar={avatar || analysis.profile.avatar} />
+        )}
       </div>
     </div>
   );
-}
+});

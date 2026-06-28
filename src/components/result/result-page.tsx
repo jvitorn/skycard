@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Plus, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -21,6 +21,7 @@ import type { SkyCardAnalysis } from "@/lib/bluesky/types";
 import type { Locale } from "@/lib/i18n/routing";
 import { formatShortDate } from "@/lib/utils/dates";
 import { formatNumber, formatPercent } from "@/lib/utils/numbers";
+import { avatarProxyUrl } from "@/lib/utils/url";
 
 import { AnalysisSummary } from "./analysis-summary";
 import { AttributeBreakdown } from "./attribute-breakdown";
@@ -39,30 +40,31 @@ export function ResultPage({
   const t = useTranslations();
   const currentLocale = useLocale();
   const [flipped, setFlipped] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const proxiedAvatar = avatarProxyUrl(analysis.profile.avatar);
 
   return (
     <div className="star-field pb-24 md:pb-0">
       <section className="sky-container py-8 md:py-12">
-        <div className="md:hidden">
-          <ResultHeader analysis={analysis} />
-        </div>
         <div className="grid gap-8 md:grid-cols-[minmax(300px,440px)_1fr] md:items-start">
-          <div className="order-2 flex flex-col items-center gap-5 md:order-1 md:sticky md:top-24">
+          <div className="order-1 flex flex-col items-center gap-5 md:sticky md:top-24">
             <SkyCard
+              ref={cardRef}
               analysis={analysis}
               flipped={flipped}
               onFlip={() => setFlipped((value) => !value)}
+              avatar={proxiedAvatar}
               className="max-w-[min(88vw,410px)]"
             />
             <CardFlipControls flipped={flipped} onFlip={() => setFlipped((value) => !value)} />
             <div className="hidden gap-3 md:flex">
-              <DownloadDialog analysis={analysis} />
+              <DownloadDialog analysis={analysis} cardRef={cardRef} />
               <ShareDialog analysis={analysis} />
             </div>
           </div>
 
-          <div className="order-1 space-y-6 md:order-2">
-            <div className="hidden md:block">
+          <div className="order-2 space-y-6">
+            <div>
               <ResultHeader analysis={analysis} />
             </div>
 
@@ -145,9 +147,8 @@ export function ResultPage({
         className="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-[#050B18]/90 p-3 backdrop-blur-xl md:hidden"
         aria-label={t("result.stickyActions")}
       >
-        <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
-          <DownloadDialog analysis={analysis} />
-          <ShareDialog analysis={analysis} />
+        <div className="mx-auto grid max-w-md grid-cols-2 gap-2">
+          <DownloadDialog analysis={analysis} cardRef={cardRef} />
           <Button
             type="button"
             variant="outline"

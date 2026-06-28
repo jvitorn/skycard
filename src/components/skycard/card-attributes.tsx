@@ -53,7 +53,7 @@ export function CardAttributes({
             <span className="font-sport text-sm font-black tracking-[.12em] text-[var(--accent)]">
               {t(`attributes.${key}.code`)}
             </span>
-            <span className="font-sport text-2xl font-black leading-none text-[var(--ovr)]">
+            <span className="font-sport text-2xl font-black leading-none text-[var(--bd)]">
               {scoreForAttribute(scores, key)}
             </span>
           </div>

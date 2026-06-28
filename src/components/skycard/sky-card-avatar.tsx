@@ -27,7 +27,7 @@ export function SkyCardAvatar({
   return (
     <Avatar
       className={cn(
-        "border-2 border-[var(--accent)] bg-[linear-gradient(140deg,var(--accent),var(--accent2))] shadow-[0_0_35px_rgba(86,214,255,.22)]",
+        "overflow-hidden rounded-full border-[3px] border-[var(--bd)] bg-[linear-gradient(140deg,var(--accent),var(--accent2))] shadow-[0_0_35px_rgba(86,214,255,.22)] ring-2 ring-white/15",
         className
       )}
     >

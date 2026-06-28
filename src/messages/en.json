@@ -13,10 +13,10 @@
     "exploreCards": "Explore cards",
     "language": "Language",
     "menu": "Menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "skipContent": "Skip to content"
   },
   "landing": {
-    "badge": "Public data · for fun",
     "headline": "Turn your Bluesky profile into a collectible card.",
     "subheadline": "Enter a handle and discover your activity, impact and conversation style.",
     "label": "Enter a Bluesky handle",
@@ -76,6 +76,7 @@
     "showFront": "Show front",
     "showBack": "Show back",
     "flipCard": "Flip card",
+    "cardSideControls": "Choose card side",
     "enlarge": "Enlarge",
     "download": "Download",
     "downloadCard": "Download card",
@@ -121,7 +122,8 @@
     "activityWindow": "{days}-day window",
     "legacySince": "Since {year}",
     "noDate": "Date unavailable",
-    "avatarAlt": "{name} avatar"
+    "avatarAlt": "{name} avatar",
+    "accessibleLabel": "{name}'s card, @{handle}. Current side: {side}. {ovr} OVR, {tier} tier, {border} border, {archetype} archetype, {followers} followers and {following} following."
   },
   "tiers": {
     "base": "Base",
@@ -264,10 +266,20 @@
   "download": {
     "title": "Download your SkyCard",
     "description": "Choose the collectible card or a social image with background and caption.",
+    "themeLabel": "Background color",
+    "themeHelp": "The selected color appears in the downloaded PNG background.",
     "cardFormat": "Card PNG · 1000 × 1400",
     "shareFormat": "Social PNG · 1080 × 1350",
     "started": "Download started",
-    "failed": "Could not export the image. Try again."
+    "failed": "Could not export the image. Try again.",
+    "colors": {
+      "sky": "Sky",
+      "indigo": "Indigo",
+      "emerald": "Emerald",
+      "rose": "Rose",
+      "amber": "Amber",
+      "slate": "Slate"
+    }
   },
   "share": {
     "title": "Share your SkyCard",

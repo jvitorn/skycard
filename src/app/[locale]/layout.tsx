@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Manrope, Saira_Condensed, Sora } from "next/font/google";
 
@@ -68,6 +68,7 @@ export default async function LocaleLayout({
   const locale = localeParam as Locale;
   setRequestLocale(locale);
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: "nav" });
 
   return (
     <html
@@ -78,8 +79,16 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <TooltipProvider delay={160}>
             <div className="flex min-h-dvh flex-col">
+              <a
+                href="#main-content"
+                className="sr-only z-50 rounded-[10px] bg-[var(--cyan)] px-4 py-3 font-heading text-sm font-black text-[#06101f] focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+              >
+                {t("skipContent")}
+              </a>
               <SiteHeader locale={locale} />
-              <main className="flex-1">{children}</main>
+              <main id="main-content" className="flex-1" tabIndex={-1}>
+                {children}
+              </main>
               <SiteFooter />
             </div>
             <Toaster position="bottom-center" richColors closeButton />
