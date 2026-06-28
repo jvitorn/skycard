@@ -1,0 +1,303 @@
+{
+  "meta": {
+    "homeTitle": "SkyCards",
+    "homeDescription": "Turn a public Bluesky profile into a collectible social stats card.",
+    "cardTitle": "{name} SkyCard",
+    "cardDescription": "{name} scored {ovr} OVR as {archetype}. Create yours with public Bluesky data.",
+    "genericTitle": "SkyCards",
+    "genericDescription": "Create a collectible card from public Bluesky activity."
+  },
+  "nav": {
+    "logo": "SkyCards",
+    "howItWorks": "How it works",
+    "exploreCards": "Explore cards",
+    "language": "Language",
+    "menu": "Menu",
+    "closeMenu": "Close menu"
+  },
+  "landing": {
+    "badge": "Public data · for fun",
+    "headline": "Turn your Bluesky profile into a collectible card.",
+    "subheadline": "Enter a handle and discover your activity, impact and conversation style.",
+    "label": "Enter a Bluesky handle",
+    "placeholder": "@username.bsky.social",
+    "button": "Generate my card",
+    "tryExample": "Try @bsky.app",
+    "disclaimer": "Uses public data only. Scores are generated for entertainment. Not affiliated with Bluesky.",
+    "demoName": "Nova Sterling",
+    "demoHandle": "@nova.bsky.social",
+    "demoArchetype": "The Playmaker",
+    "howTitle": "How it works",
+    "howIntro": "A lightweight flow reads public Bluesky activity and turns it into a shareable card.",
+    "step1Title": "Enter a handle",
+    "step1Text": "Use a handle, a Bluesky profile URL, or a DID.",
+    "step2Title": "Analyze public activity",
+    "step2Text": "SkyCards reads up to 300 public feed items from the last year.",
+    "step3Title": "Reveal the card",
+    "step3Text": "Scores, tier, border, archetype and badges are generated deterministically.",
+    "examplesTitle": "Example cards",
+    "examplesIntro": "Demo cards show the visual system only. Real cards never mix in sample data.",
+    "shareTitle": "Made to share",
+    "shareText": "Download a card PNG, export a social version, use native sharing when available, or copy the link.",
+    "faqTitle": "FAQ",
+    "faqLoginQ": "Do I need to log in?",
+    "faqLoginA": "No. The first version only uses public Bluesky endpoints.",
+    "faqStoreQ": "Is my information stored?",
+    "faqStoreA": "No database is used. Public API responses may be cached technically for up to one hour.",
+    "faqOfficialQ": "Is this affiliated with Bluesky?",
+    "faqOfficialA": "No. SkyCards is an independent entertainment project.",
+    "faqScoresQ": "Are scores serious rankings?",
+    "faqScoresA": "No. They summarize public activity for fun and are not a personal evaluation."
+  },
+  "form": {
+    "invalid": "Enter a valid Bluesky handle, profile URL, or DID.",
+    "empty": "Enter a handle to generate a card.",
+    "otherDomain": "Only bsky.app profile URLs are supported.",
+    "submit": "Generate card"
+  },
+  "generation": {
+    "title": "Designing your SkyCard",
+    "stepOf": "Step {step} of {total}",
+    "almostReady": "Almost ready",
+    "findingProfile": "Finding profile",
+    "readingPosts": "Reading public posts",
+    "calculatingStats": "Calculating stats",
+    "choosingArchetype": "Choosing your archetype",
+    "designingCard": "Designing your card"
+  },
+  "result": {
+    "profile": "Profile",
+    "attributes": "Attributes",
+    "badges": "Badges",
+    "analysis": "Analysis summary",
+    "methodology": "Methodology",
+    "front": "Front",
+    "back": "Back",
+    "showFront": "Show front",
+    "showBack": "Show back",
+    "flipCard": "Flip card",
+    "enlarge": "Enlarge",
+    "download": "Download",
+    "downloadCard": "Download card",
+    "downloadShare": "Download social version",
+    "share": "Share",
+    "newCard": "New card",
+    "createAnother": "Create another card",
+    "tier": "Tier",
+    "border": "Border",
+    "periodLabel": "Period",
+    "period": "{start} to {end}",
+    "activitiesAnalyzedLabel": "Activities analyzed",
+    "activitiesAnalyzed": "{count} activities analyzed",
+    "sampleNoticeTitle": "Small sample",
+    "sampleNoticeText": "This card uses limited public activity, so behavioral scores are pulled closer to 50.",
+    "entertainment": "Scores are generated for entertainment from public activity.",
+    "seeCalculation": "See calculation",
+    "rawValues": "Raw values",
+    "bestPost": "Best post",
+    "openBestPost": "Open best post",
+    "noBestPost": "No highlighted post",
+    "joined": "Joined",
+    "accountAge": "Account age",
+    "confidence": "Sample confidence",
+    "legend": "Attribute legend",
+    "stickyActions": "Card actions"
+  },
+  "card": {
+    "edition": "2026 Edition",
+    "brand": "SkyCards",
+    "overall": "OVR",
+    "followers": "Followers",
+    "following": "Following",
+    "totalPosts": "Total posts",
+    "originalPosts": "Original posts",
+    "replies": "Replies",
+    "externalReplies": "External replies",
+    "selfReplies": "Self replies",
+    "reposts": "Reposts",
+    "uniqueAccounts": "Accounts replied",
+    "interactions": "Interactions received",
+    "hitPosts": "Hit posts",
+    "activityWindow": "{days}-day window",
+    "legacySince": "Since {year}",
+    "noDate": "Date unavailable",
+    "avatarAlt": "{name} avatar"
+  },
+  "tiers": {
+    "base": "Base",
+    "rare": "Rare",
+    "elite": "Elite",
+    "icon": "Icon"
+  },
+  "borders": {
+    "rookie": "Rookie Blue",
+    "rising": "Rising Cyan",
+    "established": "Established Silver",
+    "veteran": "Veteran Gold",
+    "legacy": "Legacy Gold"
+  },
+  "attributes": {
+    "activity": {
+      "code": "ACT",
+      "name": "Activity",
+      "short": "Recent public activity volume.",
+      "detail": "Activity measures authored posts, replies and reposts with different weights.",
+      "calculation": "Weighted activity per week is scaled logarithmically."
+    },
+    "consistency": {
+      "code": "CON",
+      "name": "Consistency",
+      "short": "Regularity across the analysis window.",
+      "detail": "Consistency rewards active weeks and steadier weekly behavior, not just volume.",
+      "calculation": "Active-week ratio contributes 70%, regularity contributes 30%."
+    },
+    "engagement": {
+      "code": "ENG",
+      "name": "Engagement",
+      "short": "Interactions received on authored activity.",
+      "detail": "Engagement uses received likes, reposts, replies, quotes and bookmarks on posts and replies.",
+      "calculation": "Weighted received interactions are compared with authored activity and follower count."
+    },
+    "impact": {
+      "code": "IMP",
+      "name": "Impact",
+      "short": "How often original posts stand out.",
+      "detail": "Impact compares original posts against the account's own median interaction pattern.",
+      "calculation": "Hit posts and the strongest post determine the score."
+    },
+    "replies": {
+      "code": "RPL",
+      "name": "Replies",
+      "short": "Participation in external conversations.",
+      "detail": "Replies only count external conversations. Replies to your own account are tracked separately.",
+      "calculation": "Reply share, unique accounts replied and reply frequency are combined."
+    },
+    "network": {
+      "code": "NET",
+      "name": "Network",
+      "short": "Public network presence.",
+      "detail": "Network combines follower count, follower/following balance and conversation connections.",
+      "calculation": "This does not claim real reach; it summarizes public profile and conversation signals."
+    }
+  },
+  "archetypes": {
+    "the-playmaker": {
+      "name": "The Playmaker",
+      "description": "A connector with strong replies and a visible public network."
+    },
+    "the-viral-spark": {
+      "name": "The Viral Spark",
+      "description": "Original posts often punch above the account's baseline."
+    },
+    "the-headliner": {
+      "name": "The Headliner",
+      "description": "A high-engagement profile whose strongest posts stand out."
+    },
+    "the-broadcaster": {
+      "name": "The Broadcaster",
+      "description": "A steady, active voice with a reliable publishing rhythm."
+    },
+    "the-community-builder": {
+      "name": "The Community Builder",
+      "description": "A profile with healthy network signals and recurring conversations."
+    },
+    "the-consistent-voice": {
+      "name": "The Consistent Voice",
+      "description": "A regular presence whose public activity shows a dependable cadence."
+    },
+    "the-conversationalist": {
+      "name": "The Conversationalist",
+      "description": "A reply-forward profile that spends real time in public discussions."
+    },
+    "the-newcomer": {
+      "name": "The Newcomer",
+      "description": "A newer or quieter public profile with enough activity for a rookie card."
+    },
+    "the-all-rounder": {
+      "name": "The All-Rounder",
+      "description": "A balanced public profile without one dominant signal."
+    }
+  },
+  "badges": {
+    "legacy-member": {
+      "name": "Legacy Member",
+      "description": "The account age earns a Legacy Gold border."
+    },
+    "viral-spark": {
+      "name": "Viral Spark",
+      "description": "Impact is high or several posts beat the account baseline."
+    },
+    "conversation-starter": {
+      "name": "Conversation Starter",
+      "description": "External conversation participation is especially strong."
+    },
+    "consistent-player": {
+      "name": "Consistent Player",
+      "description": "Weekly activity is notably steady."
+    },
+    "community-builder": {
+      "name": "Community Builder",
+      "description": "Network score and conversation breadth are both strong."
+    },
+    "rookie": {
+      "name": "Rookie",
+      "description": "The card is based on a small public activity sample."
+    }
+  },
+  "states": {
+    "notFoundTitle": "We could not find this profile",
+    "notFoundText": "Check the handle and try again, or generate the example card.",
+    "thinTitle": "This profile is still building its history",
+    "thinText": "No public activities were found in the analysis window, so SkyCards will not invent stats.",
+    "unavailableTitle": "We could not reach Bluesky",
+    "unavailableText": "The public API did not respond correctly. Try again in a moment.",
+    "rateLimitedTitle": "Bluesky is asking us to slow down",
+    "rateLimitedText": "Too many public API requests were made recently. Please try again later.",
+    "optOutTitle": "This profile is not available for public analysis",
+    "optOutText": "The profile has a public label that prevents unauthenticated display.",
+    "invalidTitle": "This handle could not be analyzed",
+    "invalidText": "Use a Bluesky handle, a bsky.app profile URL, or a DID.",
+    "tryAgain": "Try again",
+    "useExample": "Use example",
+    "backHome": "Back home"
+  },
+  "download": {
+    "title": "Download your SkyCard",
+    "description": "Choose the collectible card or a social image with background and caption.",
+    "cardFormat": "Card PNG · 1000 × 1400",
+    "shareFormat": "Social PNG · 1080 × 1350",
+    "started": "Download started",
+    "failed": "Could not export the image. Try again."
+  },
+  "share": {
+    "title": "Share your SkyCard",
+    "description": "Use native sharing when supported, copy the link, or download the image.",
+    "message": "I just got an {ovr} OVR SkyCard. Create yours and compare your stats.",
+    "cta": "Create yours at SkyCards",
+    "native": "Share image",
+    "copyLink": "Copy link",
+    "copyMessage": "Copy message",
+    "copied": "Copied",
+    "unsupported": "Native file sharing is not available here, but you can copy the link or download the PNG.",
+    "failed": "Sharing did not complete."
+  },
+  "methodology": {
+    "title": "How scores work",
+    "intro": "SkyCards summarizes public activity into six attributes. The result is entertainment, not a personal or professional evaluation.",
+    "activity": "ACT measures recent volume of posts, replies and reposts.",
+    "consistency": "CON measures active weeks and steadiness.",
+    "engagement": "ENG measures received interactions on authored activity.",
+    "impact": "IMP measures posts that stand out against the profile's own baseline.",
+    "replies": "RPL measures external conversation participation.",
+    "network": "NET measures public network presence without claiming real reach.",
+    "overall": "OVR blends the six scores and maps them to 60–99.",
+    "tierBorder": "Tier is based on OVR. Border is based on account age. They are independent."
+  },
+  "footer": {
+    "about": "About",
+    "scores": "How scores work",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "disclaimer": "Uses public Bluesky data. Scores are generated for entertainment. Not affiliated with Bluesky."
+  }
+}
