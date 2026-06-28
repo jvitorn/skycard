@@ -25,16 +25,18 @@ export function SkyCardAvatar({
   className?: string;
 }) {
   return (
-    <Avatar
+    <div
       className={cn(
-        "overflow-hidden rounded-full border-[3px] border-[var(--bd)] bg-[linear-gradient(140deg,var(--accent),var(--accent2))] shadow-[0_0_35px_rgba(86,214,255,.22)] ring-2 ring-white/15",
+        "shrink-0 overflow-hidden rounded-full border-[3px] border-[var(--bd)] bg-[linear-gradient(140deg,var(--accent),var(--accent2))] shadow-[0_0_35px_rgba(86,214,255,.22)] ring-2 ring-white/15",
         className
       )}
     >
-      <AvatarImage src={avatar} alt={alt} crossOrigin="anonymous" />
-      <AvatarFallback className="bg-transparent font-heading text-2xl font-black text-[#06101f]">
-        {initials(name).toUpperCase()}
-      </AvatarFallback>
-    </Avatar>
+      <Avatar className="size-full rounded-full">
+        <AvatarImage src={avatar} alt={alt} crossOrigin="anonymous" className="size-full object-cover" />
+        <AvatarFallback className="size-full bg-transparent font-heading text-2xl font-black text-[#06101f]">
+          {initials(name).toUpperCase()}
+        </AvatarFallback>
+      </Avatar>
+    </div>
   );
 }

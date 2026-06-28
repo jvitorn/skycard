@@ -62,7 +62,7 @@ export function SkyCardBack({ analysis }: { analysis: SkyCardAnalysis }) {
   const { profile, activity, presentation, scores } = analysis;
 
   return (
-    <section className="skycard-face skycard-back p-[6.5%]" aria-label={t("result.back")}>
+    <section className="skycard-face skycard-back px-[6.5%] py-[5.2%]" aria-label={t("result.back")}>
       <div className="relative z-10 flex h-full flex-col">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">

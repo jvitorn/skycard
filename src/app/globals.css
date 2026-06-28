@@ -168,6 +168,7 @@
     --bd2: var(--violet);
     --bdglow: rgba(86, 214, 255, 0.5);
     aspect-ratio: 5 / 7;
+    container-type: inline-size;
     transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry));
     transform-style: preserve-3d;
     transition: transform 180ms ease, filter 180ms ease;
