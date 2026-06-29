@@ -1,15 +1,18 @@
 import {
   AUTHOR_FEED_LIMIT,
   BLUESKY_PUBLIC_API,
-  BLUESKY_TIMEOUT_MS,
-  CACHE_REVALIDATE_SECONDS,
 } from "./constants";
 import { SkyCardError } from "./errors";
+import {
+  createBlueskyFetchInit,
+  type BlueskyFetchOptions,
+} from "./fetch-options";
 import { authorFeedPageSchema, type AuthorFeedPage } from "./schemas";
 
 export async function getAuthorFeedPage(
   actor: string,
-  cursor?: string
+  cursor?: string,
+  options: BlueskyFetchOptions = {}
 ): Promise<AuthorFeedPage> {
   const url = new URL("/xrpc/app.bsky.feed.getAuthorFeed", BLUESKY_PUBLIC_API);
   url.searchParams.set("actor", actor);
@@ -23,15 +26,7 @@ export async function getAuthorFeedPage(
   let response: Response;
 
   try {
-    response = await fetch(url, {
-      headers: {
-        accept: "application/json",
-      },
-      next: {
-        revalidate: CACHE_REVALIDATE_SECONDS,
-      },
-      signal: AbortSignal.timeout(BLUESKY_TIMEOUT_MS),
-    });
+    response = await fetch(url, createBlueskyFetchInit(options));
   } catch (error) {
     if (error instanceof DOMException && error.name === "TimeoutError") {
       throw new SkyCardError("timeout", "Feed request timed out");

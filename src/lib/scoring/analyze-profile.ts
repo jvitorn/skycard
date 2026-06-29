@@ -4,6 +4,7 @@ import {
 } from "@/lib/bluesky/constants";
 import { SkyCardError } from "@/lib/bluesky/errors";
 import { fetchAnalysisSource } from "@/lib/bluesky/fetch-analysis-source";
+import type { BlueskyFetchOptions } from "@/lib/bluesky/fetch-options";
 import { normalizeActorInput } from "@/lib/bluesky/normalize-actor";
 import { normalizeFeedItems } from "@/lib/bluesky/normalize-feed";
 import type {
@@ -213,9 +214,12 @@ function calculateScores({
   };
 }
 
-export async function analyzeProfile(actorInput: string): Promise<SkyCardAnalysis> {
+export async function analyzeProfile(
+  actorInput: string,
+  options: BlueskyFetchOptions = {}
+): Promise<SkyCardAnalysis> {
   const actor = normalizeActorInput(decodeURIComponent(actorInput));
-  const source = await fetchAnalysisSource(actor);
+  const source = await fetchAnalysisSource(actor, options);
   const profile = toProfile(source.profile);
   const normalized = normalizeFeedItems(source.feed, profile.did);
   const now = new Date();

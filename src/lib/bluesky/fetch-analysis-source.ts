@@ -4,6 +4,7 @@ import {
   MAX_WINDOW_DAYS,
 } from "./constants";
 import { SkyCardError, isSkyCardError } from "./errors";
+import type { BlueskyFetchOptions } from "./fetch-options";
 import { getAuthorFeedPage } from "./get-author-feed";
 import { getProfile, hasPublicOptOut } from "./get-profile";
 import type { AuthorFeedItem, BlueskyProfile } from "./schemas";
@@ -32,14 +33,28 @@ function oldestFeedDate(items: AuthorFeedItem[]): number | undefined {
   return times.length ? Math.min(...times) : undefined;
 }
 
-export async function fetchAnalysisSource(actor: string): Promise<AnalysisSource> {
-  const profile = await getProfile(actor);
+export async function fetchAnalysisSource(
+  actor: string,
+  options: BlueskyFetchOptions = {}
+): Promise<AnalysisSource> {
+  let profile = await getProfile(actor, options);
 
   if (hasPublicOptOut(profile)) {
-    throw new SkyCardError(
-      "public_opt_out",
-      "Profile is not available for public analysis"
-    );
+    if (options.cache === "no-store") {
+      throw new SkyCardError(
+        "public_opt_out",
+        "Profile is not available for public analysis"
+      );
+    }
+
+    profile = await getProfile(actor, { cache: "no-store" });
+
+    if (hasPublicOptOut(profile)) {
+      throw new SkyCardError(
+        "public_opt_out",
+        "Profile is not available for public analysis"
+      );
+    }
   }
 
   const feed: AuthorFeedItem[] = [];
@@ -48,7 +63,7 @@ export async function fetchAnalysisSource(actor: string): Promise<AnalysisSource
 
   for (let pageIndex = 0; pageIndex < MAX_FEED_PAGES; pageIndex += 1) {
     try {
-      const page = await getAuthorFeedPage(profile.did, cursor);
+      const page = await getAuthorFeedPage(profile.did, cursor, options);
       feed.push(...page.feed);
       cursor = page.cursor;
 

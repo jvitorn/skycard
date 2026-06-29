@@ -1,27 +1,24 @@
 import {
   BLUESKY_PUBLIC_API,
-  BLUESKY_TIMEOUT_MS,
-  CACHE_REVALIDATE_SECONDS,
 } from "./constants";
 import { SkyCardError } from "./errors";
+import {
+  createBlueskyFetchInit,
+  type BlueskyFetchOptions,
+} from "./fetch-options";
 import { blueskyProfileSchema, type BlueskyProfile } from "./schemas";
 
-export async function getProfile(actor: string): Promise<BlueskyProfile> {
+export async function getProfile(
+  actor: string,
+  options: BlueskyFetchOptions = {}
+): Promise<BlueskyProfile> {
   const url = new URL("/xrpc/app.bsky.actor.getProfile", BLUESKY_PUBLIC_API);
   url.searchParams.set("actor", actor);
 
   let response: Response;
 
   try {
-    response = await fetch(url, {
-      headers: {
-        accept: "application/json",
-      },
-      next: {
-        revalidate: CACHE_REVALIDATE_SECONDS,
-      },
-      signal: AbortSignal.timeout(BLUESKY_TIMEOUT_MS),
-    });
+    response = await fetch(url, createBlueskyFetchInit(options));
   } catch (error) {
     if (error instanceof DOMException && error.name === "TimeoutError") {
       throw new SkyCardError("timeout", "Profile request timed out");

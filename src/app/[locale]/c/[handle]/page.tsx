@@ -1,5 +1,6 @@
 import { cache } from "react";
 import type { Metadata } from "next";
+import { unstable_noStore as noStore } from "next/cache";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -12,6 +13,38 @@ import { routing, type Locale } from "@/lib/i18n/routing";
 import { cardPath, getSiteUrl } from "@/lib/utils/url";
 
 const getAnalysis = cache((handle: string) => analyzeProfile(handle));
+const uncachedResultCodes = new Set([
+  "public_opt_out",
+  "unavailable",
+  "timeout",
+  "invalid_response",
+  "rate_limited",
+]);
+const retryWithoutCacheCodes = new Set([
+  "unavailable",
+  "timeout",
+  "invalid_response",
+  "rate_limited",
+]);
+
+function noStoreResultState(error: unknown) {
+  if (!isSkyCardError(error) || uncachedResultCodes.has(error.code)) {
+    noStore();
+  }
+}
+
+async function getAnalysisWithFreshRetry(handle: string) {
+  try {
+    return await getAnalysis(handle);
+  } catch (error) {
+    if (!isSkyCardError(error) || !retryWithoutCacheCodes.has(error.code)) {
+      throw error;
+    }
+
+    noStore();
+    return analyzeProfile(handle, { cache: "no-store" });
+  }
+}
 
 type CardParams = {
   locale: string;
@@ -39,7 +72,7 @@ export async function generateMetadata({
   const canonical = `${siteUrl}${cardPath(locale, normalized)}`;
 
   try {
-    const analysis = await getAnalysis(handle);
+    const analysis = await getAnalysisWithFreshRetry(handle);
     const name = analysis.profile.displayName;
     const archetype = (await getTranslations({ locale, namespace: "archetypes" }))(
       `${analysis.presentation.archetype}.name`
@@ -71,7 +104,9 @@ export async function generateMetadata({
         images: [`${canonical}/opengraph-image`],
       },
     };
-  } catch {
+  } catch (error) {
+    noStoreResultState(error);
+
     return {
       title: t("genericTitle"),
       description: t("genericDescription"),
@@ -105,8 +140,10 @@ export default async function CardPage({
   let analysis: Awaited<ReturnType<typeof getAnalysis>>;
 
   try {
-    analysis = await getAnalysis(handle);
+    analysis = await getAnalysisWithFreshRetry(handle);
   } catch (error) {
+    noStoreResultState(error);
+
     if (isSkyCardError(error)) {
       return <ResultState code={error.code} locale={locale} />;
     }
